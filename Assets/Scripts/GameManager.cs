@@ -5,7 +5,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public float slowdown = 10f;
-    public void EndGame()
+    public AudioClip collisionClip;
+    AudioSource collisionSource;
+    void Start()
+    {
+        collisionSource = GetComponent<AudioSource>();        
+    }
+    public void EndGame()      
     {
         StartCoroutine(RestartLevel());        
     }
@@ -13,6 +19,7 @@ public class GameManager : MonoBehaviour
     {                       
         Time.timeScale = 1f / slowdown;
         Time.fixedDeltaTime = Time.fixedDeltaTime / slowdown;
+        collisionSource.PlayOneShot(collisionClip);
         yield return new WaitForSeconds(0.1f);        //Slowdown time length       
         Time.timeScale = 1f;
         Time.fixedDeltaTime = Time.fixedDeltaTime * slowdown;
